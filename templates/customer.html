@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Insights | AI Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent-color: #6366f1;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1e293b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            color: var(--text-main);
+            padding-bottom: 20px;
+        }
+
+        .navbar {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        legend {
+            font-weight: 800;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #64748b;
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+            margin-left: 15px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .modal-content { border-radius: 24px; border: none; }
+        .modal-header { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: white; border: none; }
+        .cluster-number { font-size: 4rem; font-weight: 800; color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <div class="bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:40px; height:40px; border-radius:50%;">SK</div>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold text-dark">Customer <span style="color:var(--accent-color)">Categorizer</span></h5>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-9">
+                <div class="card-container">
+                    <form action="/predict" method="post">
+                        <legend>Intelligence Input Panel</legend>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6"><label class="form-label">Customer Age</label><input type="number" class="form-control" name="Age" required></div>
+                            <div class="col-md-6"><label class="form-label">Education Level</label>
+                                <select class="form-select" name="Education" required>
+                                    <option value="0">Basic</option><option value="1">Diploma</option>
+                                    <option value="2">Graduation</option><option value="3">Master</option><option value="4">PhD</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4"><label class="form-label">Marital Status</label>
+                                <select class="form-select" name="Marital_Status" required>
+                                    <option value="0">Single</option><option value="1">Married</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4"><label class="form-label">Parental Status</label>
+                                <select class="form-select" name="Parental_Status" required>
+                                    <option value="0">Non-Parent</option><option value="1">Parent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4"><label class="form-label">Total Children</label><input type="number" class="form-control" name="Children" value="0" required></div>
+                            <div class="col-md-6"><label class="form-label">Annual Income (INR)</label><input type="number" step="any" class="form-control" name="Income" required></div>
+                            <div class="col-md-6"><label class="form-label">Total Spent (2 Years)</label><input type="number" step="any" class="form-control" name="Total_Spending" required></div>
+                        </div>
+
+                        <div class="section-title">Behavioral Metrics</div>
+                        <div class="row g-3">
+                            <div class="col-md-4"><label class="form-label">Days with Us</label><input type="number" class="form-control" name="Days_as_Customer" required></div>
+                            <div class="col-md-4"><label class="form-label">Recency (Days)</label><input type="number" class="form-control" name="Recency" required></div>
+                            <div class="col-md-4"><label class="form-label">Wine</label><input type="number" step="any" class="form-control" name="Wines" required></div>
+                            <div class="col-md-4"><label class="form-label">Fruit</label><input type="number" step="any" class="form-control" name="Fruits" required></div>
+                            <div class="col-md-4"><label class="form-label">Meat</label><input type="number" step="any" class="form-control" name="Meat" required></div>
+                            <div class="col-md-4"><label class="form-label">Fish</label><input type="number" step="any" class="form-control" name="Fish" required></div>
+                            <div class="col-md-4"><label class="form-label">Sweets</label><input type="number" step="any" class="form-control" name="Sweets" required></div>
+                            <div class="col-md-4"><label class="form-label">Gold</label><input type="number" step="any" class="form-control" name="Gold" required></div>
+                            <div class="col-md-4"><label class="form-label">Web Orders</label><input type="number" class="form-control" name="Web" required></div>
+                            <div class="col-md-4"><label class="form-label">Catalog Orders</label><input type="number" class="form-control" name="Catalog" required></div>
+                            <div class="col-md-4"><label class="form-label">Store Orders</label><input type="number" class="form-control" name="Store" required></div>
+                            <div class="col-md-4"><label class="form-label">Discount Purchases</label><input type="number" class="form-control" name="Discount_Purchases" required></div>
+                            <div class="col-md-4"><label class="form-label">Promos</label><input type="number" class="form-control" name="Total_Promo" required></div>
+                            <div class="col-md-4"><label class="form-label">Web Visits/Mo</label><input type="number" class="form-control" name="NumWebVisitsMonth" required></div>
+                        </div>
+                        <button class="btn btn-predict w-100 mt-4" type="submit">Identify Customer Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center py-4">
+                <div class="modal-header"><h5>AI Prediction Complete</h5></div>
+                <div class="modal-body">
+                    <div class="cluster-number">{{cluster_id}}</div>
+                    <h4>{{cluster_name}}</h4>
+                    <button class="btn btn-primary mt-3" onclick="location.href='/customer'">Close & Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    {% if cluster_id is defined %}
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('resultModal'));
+        myModal.show();
+    </script>
+    {% endif %}
+</body>
+</html>

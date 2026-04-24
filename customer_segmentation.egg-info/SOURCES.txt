@@ -1,0 +1,5 @@
+setup.py
+customer_segmentation.egg-info/PKG-INFO
+customer_segmentation.egg-info/SOURCES.txt
+customer_segmentation.egg-info/dependency_links.txt
+customer_segmentation.egg-info/top_level.txt

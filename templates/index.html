@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataSphere AI | Customer Segmentation Engine</title>
+
+<style>
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+    
+    body { margin: 0; font-family: 'Segoe UI', sans-serif;
+     background: #f8fafc; 
+     color: #334155; }
+
+    /* NAVBAR */
+    .navbar { display: flex; justify-content: space-between; 
+        align-items: center; padding: 20px 80px;
+         background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .brand-container { display: flex; align-items: center; gap: 15px; }
+    .sk-logo { width: 40px; height: 40px;
+         background: #2563eb; color: white; 
+         border-radius: 50%; display: flex; align-items: center;
+          justify-content: center; font-weight: bold; font-size: 1.2rem; }
+    .logo h2 { color: #1e293b; margin: 0; }
+    
+    .navbar nav a { margin: 0 20px; text-decoration: none;
+         color: #64748b; font-weight: 500; cursor: pointer; transition: 0.3s; }
+    .navbar nav a:hover { color: #2563eb; }
+
+    .btn { padding: 10px 20px; border-radius: 8px; border: none;
+         cursor: pointer; font-weight: 600; }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-outline { border: 1px solid #2563eb; color: #2563eb; background: transparent; }
+
+    /* HERO */
+    .hero { display: flex; justify-content: space-between; 
+        align-items: center; padding: 80px 80px; }
+    .hero-text { max-width: 550px; }
+    .hero-text h1 { font-size: 2.8rem; color: #0f172a;
+         margin-bottom: 20px; line-height: 1.2; }
+    #typing { font-size: 1.1rem; color: #475569; line-height: 1.6;
+         margin-bottom: 25px; border-left: 4px solid #2563eb;
+          padding-left: 15px; min-height: 100px; }
+
+    /* SLIDER */
+    .slider { position: relative; width: 450px;
+         height: 300px; overflow: hidden;
+          border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .slider img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+    .prev, .next { position: absolute; top: 45%; background: rgba(255,255,255,0.8); border: none; padding: 10px 15px; cursor: pointer; border-radius: 50%; font-weight: bold; z-index: 10; }
+    .prev { left: 10px; } .next { right: 10px; }
+
+    /* CARDS */
+    .cards { display: flex; justify-content: center;
+         gap: 30px; padding: 60px 80px; background: #fff; }
+    .card { background: #f8fafc; padding: 30px; border-radius: 12px;
+         width: 280px; text-align: center; border: 1px solid #e2e8f0; }
+
+    /* FOOTER */
+    .footer { background: #0f172a;
+         color: #cbd5e1; padding: 60px 80px 20px 80px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr);
+         gap: 40px; margin-bottom: 40px; }
+    .footer h3 { color: white; margin-bottom: 15px; }
+    .footer p { margin: 5px 0; font-size: 0.9rem; }
+    .copyright { text-align: center; border-top: 1px solid #1e293b; 
+        padding-top: 20px; font-size: 0.85rem; }
+
+    /* MODAL */
+    .modal { display: none; position: fixed;
+         top:0; left:0; width: 100%; height: 100%;
+          background: rgba(0,0,0,0.5); z-index: 1000; }
+    .modal-content { background: white; padding: 40px; width: 400px;
+         margin: 5% auto; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .form-control { width: 100%; padding: 10px; margin: 10px 0;
+         border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;}
+    .btn-login { width: 100%; padding: 12px; background: #333;
+         color: white; border: none; font-weight: bold; cursor: pointer;
+          border-radius: 4px; margin-bottom: 15px; }
+    .btn-sso { width: 100%; padding: 12px; background: white; 
+    border: 1px solid #333; font-weight: bold; cursor: pointer;
+     border-radius: 4px; margin: 15px 0; }
+</style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="brand-container">
+        <div class="sk-logo">SK</div>
+        <div class="logo"><h2>DataSphere AI</h2></div>
+    </div>
+    <nav>
+        <a href="/customer">Segmentation Engine</a>
+        <a href="javascript:void(0)">Analytics Suite</a>
+        <a href="javascript:void(0)" onclick="openAbout()">About</a>
+        <a href="#footer">Contact</a>
+    </nav>
+    <div>
+        <button class="btn btn-outline" onclick="openLogin()">Login</button>
+        <button class="btn btn-primary" onclick="openSignup()">Signup</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>Customer Segmentation Engine</h1>
+        <p id="typing"></p>
+        <a href="/customer" class="btn btn-primary" style="text-decoration: none;">Predict</a>
+    </div>
+
+    <div class="slider">
+        <img id="sliderImage" src="{{ url_for('static', path='images/img1.png') }}">
+        
+        <button class="prev" onclick="prevSlide()">❮</button>
+        <button class="next" onclick="nextSlide()">❯</button>
+    </div>
+</section>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h3>Login</h3>
+        <input class="form-control" placeholder="sanjay.all.inbox@gmail.com">
+        <input type="password" class="form-control" placeholder="••••••••••••">
+        <button class="btn-login" onclick="alert('Login Successful!')">Log in</button>
+        <button class="btn-sso" onclick="alert('SSO Redirecting...')">Log in with SSO</button>
+        <p>Don't have an account? <a href="#" onclick="openSignup()">Register</a></p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        <h3>Create Account</h3>
+        <input type="email" id="regEmail" class="form-control" placeholder="Enter your email">
+        <input type="tel" id="regMobile" class="form-control" placeholder="Enter your mobile number">
+        <input type="password" id="regPass" class="form-control" placeholder="Create a password">
+        <p style="color: #64748b; font-size: 0.8rem; margin-bottom: 15px;">Must be at least 8 characters. Avoid common passwords.</p>
+        <button class="btn-login" onclick="validateSignup()">Register</button>
+        <p>Already have an account? <a href="#" onclick="openLogin()">Log in</a></p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <h3>About DataSphere AI</h3>
+        <p>DataSphere AI is a state-of-the-art MLOps platform designed to simplify customer behavioral analysis. By bridging the gap between raw, unstructured customer data and strategic business intelligence, this platform empowers businesses to move beyond intuition and leverage evidence-based decision-making.
+
+At its core, DataSphere AI transforms noisy transactional and behavioral datasets into clear, actionable segments, enabling enterprises to optimize marketing spend, reduce churn, and maximize Customer Lifetime Value (CLV).</p>
+        <button class="btn-primary" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<section class="cards">
+    <div class="card"><h3>Machine Learning</h3><p>Clustering & Pattern Recognition</p></div>
+    <div class="card"><h3>Data Engineering</h3><p>Scalable ETL Pipelines</p></div>
+    <div class="card"><h3>MLOps</h3><p>Deployment & Monitoring</p></div>
+</section>
+
+<footer id="footer" class="footer">
+    <div class="footer-grid">
+        <div><h3>DataSphere AI</h3><p>Transforming complex behavioral data into actionable strategic insights.</p></div>
+        <div>
+            <h3>Categories</h3>
+            <p>Data Science</p>
+            <p>Artificial Intelligence</p>
+            <p>Generative Artificial Intelligence</p>
+            <p>Machine Learning Operations</p>
+            <p>Data Engineering</p>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p>LinkedIn</p>
+            <p>GitHub</p>
+            <p>+91 955487xxxx</p>
+            <p>sanjay.all.xxx@email.com</p>
+        </div>
+    </div>
+    <div class="copyright">
+        &copy; 2026 Copyright Sanjay Kumar
+    </div>
+</footer>
+
+<script>
+    // Typing Effect
+    const text = "DataSphere AI automates complex customer categorization by analyzing behavioral patterns in real-time. We bridge the gap between raw unstructured data and strategic business intelligence using advanced machine learning algorithms. Our scalable pipeline ensures precise market segmentation, enabling personalized engagement and maximizing marketing ROI for the modern enterprise.";
+    let i = 0;
+    function typing(){
+        if(i < text.length){
+            document.getElementById("typing").innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 25);
+        }
+    }
+    typing();
+
+    // Slider
+    // Update the paths to include the 'static' folder
+    
+    const images = ["/static/images/img1.png", "/static/images/img2.png"];
+    let index = 0;
+    function showSlide(){ document.getElementById("sliderImage").src = images[index]; }
+    function nextSlide(){ index = (index + 1) % images.length; showSlide(); }
+    function prevSlide(){ index = (index - 1 + images.length) % images.length; showSlide(); }
+    setInterval(nextSlide, 3000);
+
+    // Modal Logic & Validation
+    function validateSignup() {
+        const email = document.getElementById("regEmail").value;
+        const mobile = document.getElementById("regMobile").value;
+        const pass = document.getElementById("regPass").value;
+
+        if (!email || !mobile || !pass) {
+            alert("Please fill in all fields (Email, Mobile, and Password).");
+            return;
+        }
+
+        if (pass.length < 8) {
+            alert("Password must be at least 8 characters long.");
+            return;
+        }
+
+        alert('Account Created Successfully!');
+        closeModal();
+    }
+
+    function openLogin(){ 
+        document.getElementById("signupModal").style.display = "none"; 
+        document.getElementById("aboutModal").style.display = "none"; 
+        document.getElementById("loginModal").style.display = "block"; 
+    }
+    function openSignup(){ 
+        document.getElementById("loginModal").style.display = "none"; 
+        document.getElementById("aboutModal").style.display = "none"; 
+        document.getElementById("signupModal").style.display = "block"; 
+    }
+    function openAbout(){ document.getElementById("aboutModal").style.display = "block"; }
+    function closeModal(){ 
+        document.getElementById("loginModal").style.display = "none"; 
+        document.getElementById("signupModal").style.display = "none"; 
+        document.getElementById("aboutModal").style.display = "none"; 
+    }
+</script>
+
+</body>
+</html>

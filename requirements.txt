@@ -1,0 +1,26 @@
+# Web Framework & Server
+fastapi==0.78.0
+uvicorn==0.18.3
+jinja2==3.1.6
+python-multipart
+python-dotenv==0.21.0
+gunicorn==25.3.0
+
+# Data Processing
+numpy==2.4.4
+pandas==3.0.2
+
+# Machine Learning
+scikit-learn==1.8.0
+joblib==1.5.3
+xgboost==1.6.2
+scipy==1.17.1
+
+# mongo DB
+pymongo==4.17.0
+
+# Utilities
+click==8.3.1
+colorama==0.4.6
+pydantic
+-e .
