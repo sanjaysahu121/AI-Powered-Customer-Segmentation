@@ -31,7 +31,7 @@ From these above models after hyperparameter optimization we selected these two 
 
 * GridSearchCV is used for Hyperparameter Optimization in the pipeline.
 
-## `src` is the main package folder which contains
+
 
 **Components** : Contains all components of Machine Learning Project
 
